@@ -1,5 +1,19 @@
 plugins {
     id 'java'
+    id 'application'
+}
+
+application {
+    mainClass = 'co.edu.uniquindio.soft.main.DevOpsPVMApp'
+}
+
+jar {
+    archiveFileName = "DevOpsPVM.jar"
+    manifest {
+        attributes(
+                'Main-Class': 'co.edu.uniquindio.soft.main.DevOpsPVMApp'
+        )
+    }
 }
 
 group = 'co.edu.uniquindio.soft'
