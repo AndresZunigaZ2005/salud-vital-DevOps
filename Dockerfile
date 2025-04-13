@@ -12,7 +12,7 @@ RUN gradle shadowJar --no-daemon
 FROM openjdk:17-jdk-slim
 
 # Copiar el JAR generado desde la etapa anterior
-COPY --from=builder /home/gradle/project/build/libs/*-all.jar app.jar
+COPY --from=builder /home/gradle/project/build/libs/DevOpsPVM.jar /app.jar
 
 # Exponer el puerto 8080
 EXPOSE 8080
