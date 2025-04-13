@@ -2,8 +2,6 @@ package co.edu.uniquindio.soft.main;
 
 import co.edu.uniquindio.soft.model.CitaService;
 import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpExchange;
 import co.edu.uniquindio.soft.metrics.MetricsConfig;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.prometheus.PrometheusMeterRegistry;

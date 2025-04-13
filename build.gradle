@@ -1,6 +1,14 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.0.0' // Agrega este plugin
+}
+
+// Configuración de la tarea de JAR para crear el Fat JAR
+shadowJar {
+    archiveBaseName.set('DevOpsPVM')
+    archiveClassifier.set('')
+    archiveVersion.set('')
 }
 
 group = 'co.edu.uniquindio.soft'
