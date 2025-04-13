@@ -3,8 +3,28 @@ plugins {
     id 'application'
 }
 
+group = 'co.edu.uniquindio.soft'
+version = '1.0-SNAPSHOT'
+
 application {
     mainClass = 'co.edu.uniquindio.soft.main.DevOpsPVMApp'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    // https://mvnrepository.com/artifact/io.micrometer/micrometer-core
+    implementation "io.micrometer:micrometer-core:1.12.2"
+    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.12.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 jar {
@@ -16,20 +36,15 @@ jar {
     }
 }
 
-group = 'co.edu.uniquindio.soft'
-version = '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation 'io.micrometer:micrometer-core:1.11.0'
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.0'
-}
-
-test {
-    useJUnitPlatform()
+// Fat JAR para Docker sin usar shadow
+task fatJar(type: Jar) {
+    archiveBaseName.set("DevOpsPVM")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class': 'co.edu.uniquindio.soft.main.DevOpsPVMApp'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }
