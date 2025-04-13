@@ -1,10 +1,9 @@
 plugins {
     id 'java'
     id 'application'
-    id 'com.github.johnrengelman.shadow' version '7.0.0' // Agrega este plugin
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
-// Configuración de la tarea de JAR para crear el Fat JAR
 shadowJar {
     archiveBaseName.set('DevOpsPVM')
     archiveClassifier.set('')
@@ -23,10 +22,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    // https://mvnrepository.com/artifact/io.micrometer/micrometer-core
     implementation "io.micrometer:micrometer-core:1.12.2"
-    // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
     implementation 'io.micrometer:micrometer-registry-prometheus:1.12.2'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
@@ -44,15 +40,10 @@ jar {
     }
 }
 
-// Fat JAR para Docker sin usar shadow
-task fatJar(type: Jar) {
-    archiveBaseName.set("DevOpsPVM")
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes 'Main-Class': 'co.edu.uniquindio.soft.main.DevOpsPVMApp'
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    with jar
-}
+// Evitar conflictos de tareas innecesarias
+tasks.named('distZip') { enabled = false }
+tasks.named('distTar') { enabled = false }
+tasks.named('startScripts') { enabled = false }
+
+// Forzar generación del shadowJar al ejecutar build
+build.dependsOn shadowJar
